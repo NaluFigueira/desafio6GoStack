@@ -5,11 +5,9 @@ import {ActivityIndicator} from 'react-native';
 
 import {Container, Header, Avatar, Name, Bio, LoadingArea} from './styles';
 
-import Starred from '../../components/Starred/Starred';
+import Starred from './Starred';
 
 import api from '../../services/api';
-
-// import { Container } from './styles';
 
 export default class User extends Component {
   static navigationOptions = ({navigation}) => ({
@@ -55,7 +53,7 @@ export default class User extends Component {
             <ActivityIndicator size={60} color="#7159c1" />
           </LoadingArea>
         ) : (
-          <Starred stars={stars} />
+          <Starred stars={stars} login={user.login} />
         )}
       </Container>
     );

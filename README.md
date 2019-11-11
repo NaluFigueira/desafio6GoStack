@@ -14,7 +14,7 @@ Para o desafio foi requisitado a adição de algumas funcionalidades:
 
 <ul>
   <li> <strong> Loading de repositórios: </strong>  antes de carregar a lista de repositórios favoritados na tela de detalhes do Usuário, aparece um indicator de loading. Caso o usuário não tenha repositórios favoritados, a aplicação exibe um aviso.</li>
-  <li> <strong> Scroll infinito </strong> </li>
+  <li> <strong> Scroll infinito: </strong>  existe um  scroll infinito na lista de repositórios favoritados. Assim que o usuário chega nos 20% do final de lista, um sinal de carregamento aparece, e novos repositórios são carregados.</li>
   <li> <strong> Filtro de estado </strong> </li>
   <li> <strong> WebView </strong> </li>
 </ul>
