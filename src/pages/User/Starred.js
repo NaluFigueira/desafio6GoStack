@@ -23,19 +23,27 @@ export default class StarredComponent extends Component {
       stars,
       pageNumber: 1,
       loading: false,
+      refreshing: false
     };
+  }
+
+  async loadPages(pageNumber){
+    const {login} = this.props;
+    const response = await api.get(`/users/${login}/starred`, {
+      params: {
+        page: pageNumber,
+      },
+    });
+
+    return response;
   }
 
   loadMore = async () => {
     this.setState({loading: true});
-    const {login} = this.props;
+
     const {pageNumber, stars} = this.state;
 
-    const response = await api.get(`/users/${login}/starred`, {
-      params: {
-        page: pageNumber + 1,
-      },
-    });
+    const response =await this.loadPages(pageNumber + 1);
 
     this.setState({
       loading: false,
@@ -44,14 +52,29 @@ export default class StarredComponent extends Component {
     });
   };
 
+  refreshList = async () => {
+    this.setState({refreshing: true});
+
+    const response = await this.loadPages(1);
+
+    this.setState({
+      refreshing: false,
+      stars: response.data,
+      pageNumber: 1,
+    });
+  }
+
+
   render() {
-    const {stars, loading} = this.state;
+    const {stars, loading, refreshing} = this.state;
     return (
       <>
         {stars.length > 0 ? (
           <Stars
             data={stars}
             keyExtractor={star => String(star.id)}
+            onRefresh={this.refreshList}
+            refreshing={refreshing}
             onEndReachedThreshold={0.2}
             onEndReached={this.loadMore}
             renderItem={({item}) => (
