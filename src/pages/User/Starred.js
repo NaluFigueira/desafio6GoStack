@@ -23,11 +23,11 @@ export default class StarredComponent extends Component {
       stars,
       pageNumber: 1,
       loading: false,
-      refreshing: false
+      refreshing: false,
     };
   }
 
-  async loadPages(pageNumber){
+  async loadPages(pageNumber) {
     const {login} = this.props;
     const response = await api.get(`/users/${login}/starred`, {
       params: {
@@ -43,7 +43,7 @@ export default class StarredComponent extends Component {
 
     const {pageNumber, stars} = this.state;
 
-    const response =await this.loadPages(pageNumber + 1);
+    const response = await this.loadPages(pageNumber + 1);
 
     this.setState({
       loading: false,
@@ -62,8 +62,12 @@ export default class StarredComponent extends Component {
       stars: response.data,
       pageNumber: 1,
     });
-  }
+  };
 
+  onPressTitle = async repository => {
+    const {navigation} = this.props;
+    navigation.navigate('Repository', {repository});
+  };
 
   render() {
     const {stars, loading, refreshing} = this.state;
@@ -81,7 +85,9 @@ export default class StarredComponent extends Component {
               <Starred>
                 <OwnerAvatar source={{uri: item.owner.avatar_url}} />
                 <Info>
-                  <Title>{item.name}</Title>
+                  <Title onPress={() => this.onPressTitle(item)}>
+                    {item.name}
+                  </Title>
                   <Author>{item.owner.login}</Author>
                 </Info>
               </Starred>
@@ -99,4 +105,7 @@ export default class StarredComponent extends Component {
 StarredComponent.propTypes = {
   stars: PropTypes.arrayOf(PropTypes.object).isRequired,
   login: PropTypes.string.isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
 };

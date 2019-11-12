@@ -53,7 +53,7 @@ export default class User extends Component {
             <ActivityIndicator size={60} color="#7159c1" />
           </LoadingArea>
         ) : (
-          <Starred stars={stars} login={user.login} />
+          <Starred stars={stars} login={user.login} navigation={navigation} />
         )}
       </Container>
     );
